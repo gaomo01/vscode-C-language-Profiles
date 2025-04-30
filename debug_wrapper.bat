@@ -17,9 +17,6 @@ REM Set environment variables
 set "TMP=%TEMP_DIR%"
 set "TEMP=%TEMP_DIR%"
 
-REM Get script directory
-set "SCRIPT_PATH=%~dp0"
-
 REM Compiler paths (adjust based on your installation)
 set "GCC_COMPILER=C:\msys64\ucrt64\bin\gcc.exe"
 set "GPP_COMPILER=C:\msys64\ucrt64\bin\g++.exe"
@@ -57,7 +54,7 @@ if /i "%FILE_EXT%"==".c" (
 REM Compile with dynamic temp directory
 echo Using temp directory: %TEMP_DIR%
 echo Compiling: %~nx1
-"%COMPILER%" -B "%TEMP_DIR%" -g -Wall -Wextra -pedantic "%SOURCE_FILE%" -o "%EXE_FILE%"
+"%COMPILER%" -g -Wall -Wextra -pedantic "%SOURCE_FILE%" -o "%EXE_FILE%"
 
 REM Check compilation result
 if %errorlevel% neq 0 (
@@ -69,10 +66,7 @@ if %errorlevel% neq 0 (
 REM Run the executable
 echo Running %EXE_FILE%...
 if exist "%EXE_FILE%" (
-    REM Change to the directory where the executable is located
-    pushd "%CODE_DIR%"
-    "%EXE_FILE%" %*
-    popd
+    "%EXE_FILE%"
 ) else (
     echo Error: No executable generated at "%EXE_FILE%"
     timeout /t 2 /nobreak >nul
